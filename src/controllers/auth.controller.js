@@ -4,7 +4,7 @@ import bcrypt from 'bcrypt';
 class authController {
   async registration(req, res) {
     try {
-      console.log('User registration started')
+      console.log('User registration started');
 
       const { email, firstname, lastname, phone, password } = req.body;
 
@@ -13,7 +13,7 @@ class authController {
       const candidate = await prisma.users.findFirst({ where: { email } });
 
       if (candidate) {
-        console.log('User already exists')
+        console.log('User already exists');
 
         return res.status(500).json({ message: 'A user with the same username already exists' });
       }
@@ -39,10 +39,24 @@ class authController {
 
   async login(req, res) {
     try {
-      res.json('server work')
+      const {email, password} = req.body;
+
+      const user = await prisma.users.findFirst({ where: {email} });
+
+      if (!user) {
+        return res.status(401).json({message: 'User not found'}) ;
+      }
+
+      const passwordMatch = await bcrypt.compare(password, user.password);
+      
+      if (!passwordMatch) {
+        return res.status(401).json({message: 'Incorrect password'});
+      }
+
+      return res.json({message: 'Authentication successful'});
     } catch (e) {
       console.error(e);
-      res.status(500).json({ message: 'Login error' })
+      res.status(500).json({ message: 'Login error' });
     }
   }
 
