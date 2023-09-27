@@ -1,4 +1,5 @@
 import prisma from '../lib/prisma.js';
+import bcrypt from 'bcrypt';
 
 class authController {
   async registration(req, res) {
@@ -6,6 +7,8 @@ class authController {
       console.log('User registration started')
 
       const { email, firstname, lastname, phone, password } = req.body;
+
+      const hashedPassword = await bcrypt.hash(password, 10);
 
       const candidate = await prisma.users.findFirst({ where: { email } });
 
@@ -21,7 +24,7 @@ class authController {
           lastname,
           email,
           phone,
-          password,
+          password: hashedPassword,
         }
       });
 
