@@ -2,7 +2,6 @@ import prisma from '../lib/prisma.js';
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 
-
 class authController {
   async registration(req, res) {
     try {
