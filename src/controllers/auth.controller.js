@@ -44,15 +44,17 @@ class authController {
       const user = await prisma.users.findFirst({ where: {email} });
 
       if (!user) {
-        return res.status(401).json({message: 'User not found'}) ;
+        return res.status(401).json({message: 'Incorrect email or password'});
       }
 
       const passwordMatch = await bcrypt.compare(password, user.password);
       
       if (!passwordMatch) {
-        return res.status(401).json({message: 'Incorrect password'});
+        return res.status(401).json({message: 'Incorrect email or password'});
       }
-
+    
+      //
+      
       return res.json({message: 'Authentication successful'});
     } catch (e) {
       console.error(e);
