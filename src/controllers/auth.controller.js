@@ -10,6 +10,10 @@ class authController {
 
       const { email, firstname, lastname, phone, password } = req.body;
 
+      if (password.length < 4 || password.length > 18) {
+        throw new Error('Password must be between 4 and 18 characters long');
+      }
+
       const hashedPassword = await bcrypt.hash(password, 10);
 
       const candidate = await prisma.users.findFirst({ where: { email } });
@@ -50,7 +54,7 @@ class authController {
       }
 
       const passwordMatch = await bcrypt.compare(password, user.password);
-      console.log()
+     
       if (!passwordMatch) {
         return res.status(401).json({message: 'Incorrect email or password'});
       }
