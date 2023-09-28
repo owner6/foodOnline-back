@@ -1,5 +1,7 @@
 import prisma from '../lib/prisma.js';
 import bcrypt from 'bcrypt';
+import jwt from 'jsonwebtoken';
+
 
 class authController {
   async registration(req, res) {
@@ -48,14 +50,14 @@ class authController {
       }
 
       const passwordMatch = await bcrypt.compare(password, user.password);
-      
+      console.log()
       if (!passwordMatch) {
         return res.status(401).json({message: 'Incorrect email or password'});
       }
     
-      //
+      const token = jwt.sign({ userId: user.id }, 'secret_key', { expiresIn: '1h' });
       
-      return res.json({message: 'Authentication successful'});
+      return res.json({ message: 'Authentication successful', token });
     } catch (e) {
       console.error(e);
       res.status(500).json({ message: 'Login error' });
