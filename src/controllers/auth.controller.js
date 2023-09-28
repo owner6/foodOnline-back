@@ -70,12 +70,14 @@ class authController {
 
   async getUsers(req, res) {
     try {
-      res.json('server work')
+      const users = await prisma.users.findMany();
+  
+      return res.json(users);
     } catch (e) {
       console.error(e);
-      res.status(500).json({ message: 'getUsers error' })
+      res.status(500).json({ message: 'getUsers error' });
     }
-  }
+  }  
 }
 
 export default new authController();
