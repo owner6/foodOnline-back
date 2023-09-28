@@ -24,6 +24,10 @@ class authController {
       if (password.length < 4 || password.length > 18) {
         throw new Error('Password must be between 4 and 18 characters long');
       }
+      
+      if (!/@/.test(email)) {
+        throw new Error('Invalid email format');
+      }
 
       const hashedPassword = await bcrypt.hash(password, 10);
 
