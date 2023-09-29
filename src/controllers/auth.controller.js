@@ -5,11 +5,12 @@ import jwt from 'jsonwebtoken';
 
 const secret = process.env.SECRET_KEY;
 
-const generateAccessToken = (id, email, phone) => {
+const generateAccessToken = (id, email, phone, role) => {
   const payload = {
     id,
     email,
-    phone
+    phone,
+    role
   }
   return jwt.sign(payload, secret, {expiresIn: "24h"})
 }

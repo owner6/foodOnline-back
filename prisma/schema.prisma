@@ -19,7 +19,7 @@ model Users {
   email     String   @unique
   phone     String   @unique
   password  String   @db.VarChar
-  role      Role     @default(user) 
+  role      Role     @default(user)
   createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  updatedAt DateTime @updatedAt  
 }

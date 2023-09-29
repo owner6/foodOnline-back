@@ -16,7 +16,7 @@ export function authMiddleware(req, res, next) {
 
     const decodedData = jwt.verify(token, secret);
 
-    if (decodedData.role === admin) {
+    if (decodedData.role === 'admin') {
       req.user = decodedData;
       next()
     } else {
