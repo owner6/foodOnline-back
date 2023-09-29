@@ -15,9 +15,14 @@ export function authMiddleware(req, res, next) {
     }
 
     const decodedData = jwt.verify(token, secret);
-    req.user = decodedData;
-    next()
-  }  catch(e) {
+
+    if (decodedData.role === admin) {
+      req.user = decodedData;
+      next()
+    } else {
+      return res.status(403).json({message: 'Access denied: Insufficient role'})
+    }
+  } catch(e) {
     console.log(e) 
     return res.status(403).json({message: "User is not autherization"})
   }

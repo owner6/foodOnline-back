@@ -46,6 +46,7 @@ class authController {
           email,
           phone,
           password: hashedPassword,
+          role: 'user'
         }
       });
 
@@ -74,7 +75,7 @@ class authController {
         return res.status(401).json({message: 'Incorrect email or password'});
       }
     
-      const token = generateAccessToken(user.id, user.email, user.phone)
+      const token = generateAccessToken(user.id, user.email, user.phone, user.role)
       
       return res.json({ message: 'Authentication successful', token });
     } catch (e) {
@@ -85,8 +86,13 @@ class authController {
 
   async getUsers(req, res) {
     try {
+      const { role } = req.user
+      if (role !== 'admin') {
+        return res.status(403).json({ message: 'Permission denied: You are not an admin' });
+      }
+      
       const users = await prisma.users.findMany();
-  
+      
       return res.json(users);
     } catch (e) {
       console.error(e);
