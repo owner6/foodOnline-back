@@ -1,6 +1,8 @@
 import express from 'express'
 import prisma from './src/lib/prisma.js'
 import authRouter from './src/routes/auth.router.js'
+import dotenv from 'dotenv';
+dotenv.config(); 
 
 const PORT = process.env.SERVER_PORT || 3000
 
