@@ -10,6 +10,4 @@ router.post('/registration', controller.registration)
 router.post('/login', controller.login)
 router.get('/users', authMiddleware, controller.getUsers)
 
-
-
 export default router
