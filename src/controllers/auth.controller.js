@@ -66,6 +66,7 @@ class authController {
 
       const user = await prisma.users.findFirst({ where: {email} });
       console.log(user)
+      
       if (!user) {
         return res.status(401).json({message: 'Incorrect email or password'});
       }
