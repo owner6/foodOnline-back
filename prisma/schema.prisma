@@ -13,13 +13,24 @@ enum Role {
 }
 
 model Users {
+  id        Int       @id @default(autoincrement())
+  firstname String    @db.VarChar(255)
+  lastname  String    @db.VarChar(255)
+  email     String    @unique
+  phone     String    @unique
+  password  String    @db.VarChar
+  role      Role      @default(user)
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt  
+}
+
+model Products {
   id        Int      @id @default(autoincrement())
-  firstname String   @db.VarChar(255)
-  lastname  String   @db.VarChar(255)
-  email     String   @unique
-  phone     String   @unique
-  password  String   @db.VarChar
-  role      Role     @default(user)
+  title     String
+  description      String
+  price     Float
+  category  Int
+
   createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt  
+  updatedAt DateTime @updatedAt
 }
